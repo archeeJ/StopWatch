@@ -29,17 +29,30 @@ public class MainActivity extends AppCompatActivity {
         runTimer();
     }
 
+//    @Override
+//    protected void onStart() {
+//        super.onStart();
+//        isRunning = wasRunning;
+//    }
+//
+//    @Override
+//    protected void onStop() {
+//        super.onStop();
+//        wasRunning = isRunning;
+//        isRunning = false;
+//    }
+
     @Override
-    protected void onStart() {
-        super.onStart();
-        isRunning = wasRunning;
+    protected void onPause() {
+        super.onPause();
+        wasRunning = isRunning;
+        isRunning =false;
     }
 
     @Override
-    protected void onStop() {
-        super.onStop();
-        wasRunning = isRunning;
-        isRunning = false;
+    protected void onPostResume() {
+        super.onPostResume();
+        isRunning =wasRunning;
     }
 
     @Override
