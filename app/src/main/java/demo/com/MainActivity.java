@@ -9,9 +9,11 @@ import android.widget.TextView;
 import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
+
     private TextView textViewTimer;
     private Boolean isRunning = false;
     private int seconds = 0;
+    private Boolean wasRunning = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,8 +24,22 @@ public class MainActivity extends AppCompatActivity {
         if(savedInstanceState != null) {
             seconds = savedInstanceState.getInt("seconds");
             isRunning = savedInstanceState.getBoolean("isRunning");
+            wasRunning = savedInstanceState.getBoolean("wasRunning");
         }
         runTimer();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        isRunning = wasRunning;
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        wasRunning = isRunning;
+        isRunning = false;
     }
 
     @Override
@@ -31,6 +47,7 @@ public class MainActivity extends AppCompatActivity {
         super.onSaveInstanceState(outState);
         outState.putInt("seconds", seconds);
         outState.putBoolean("isRunning", isRunning);
+        outState.putBoolean("wasRunning", wasRunning);
     }
 
     public void onClickStartTimer(View view) {
